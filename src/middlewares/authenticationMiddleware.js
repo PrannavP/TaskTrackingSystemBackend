@@ -10,7 +10,7 @@ const authenticationMiddleware = (req, res, next) => {
     if(!token){
         return res.status(401).json({ message: "No auth token provided." });
     }
-
+    
     try{
         // Verify token
         const decoded = verifyJWTToken(token);
@@ -23,3 +23,5 @@ const authenticationMiddleware = (req, res, next) => {
         res.status(401).json({ message: "Token is not valid." });
     }
 };
+
+module.exports = authenticationMiddleware;

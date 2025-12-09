@@ -1,4 +1,4 @@
-const { registerUserService } = require("../services/user.service");
+const { registerUserService, loginUserService } = require("../services/user.service");
 
 const createUserController = async (req, res) => {
     try{
@@ -9,6 +9,16 @@ const createUserController = async (req, res) => {
     }
 };
 
+const loginUserController = async (req, res) => {
+    try{
+        const token = await loginUserService(req.body);
+        res.status(200).json({ success: true, message: "Logged in successfully.", data: token });
+    }catch(err){
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
 module.exports = {
-    createUserController
+    createUserController,
+    loginUserController
 };

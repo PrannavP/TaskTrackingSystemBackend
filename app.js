@@ -4,18 +4,26 @@ const {
     runMigrations
 } = require("./src/migrations/DBUpdater.js");
 const userRoutes = require("./src/routes/user.routes.js");
+const taskRoutes = require("./src/routes/task.routes.js");
+
+const MIGRATION_ON = false;
 
 const app = express();
 
-// Migrate DB
-runMigrations();
+if(MIGRATION_ON){
+    // Migrate DB
+    runMigrations();
+}
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/v1", userRoutes);
+// User related routes
+app.use("/api/v1/user", userRoutes);
+
+// Task related routes
+app.use("/api/v1/task", taskRoutes);
 
 // Test route
 app.use("/test", (req, res) => {

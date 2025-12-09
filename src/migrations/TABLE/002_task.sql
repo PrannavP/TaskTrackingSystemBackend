@@ -1,14 +1,15 @@
 CREATE TABLE IF NOT EXISTS task (
     id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
     task_name VARCHAR(200) NOT NULL,
-    task_number VARCHAR(200),
-    bug_number VARCHAR(200),
-    type VARCHAR(10), -- task or bug
-    branch_name VARCHAR(100) NOT NULL,
-    changes_type VARCHAR(20) NOT NULL, -- UI / API / DB
+    task_number INT[],
+    bug_number INT[],
+    type VARCHAR[] NOT NULL, -- task or bug
+    branch_name VARCHAR[] NOT NULL,
+    changes_type VARCHAR[] NOT NULL, -- UI / API / DB
     is_merged BOOLEAN DEFAULT FALSE,
     merged_date DATE,
-    bio TEXT,
+    description TEXT NOT NULL,
     created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
