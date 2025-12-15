@@ -1,4 +1,4 @@
-const { createTask } = require('../repositories/task.repo');
+const { createTask, getTaskList, getTaskById } = require('../repositories/task.repo');
 
 const createTaskService = async(data) => {
     const taskCreated = await createTask(data);
@@ -6,6 +6,20 @@ const createTaskService = async(data) => {
     return taskCreated;
 };
 
+const TaskListService = async(data) => {
+    const taskList = await getTaskList(data);
+
+    return taskList;
+}
+
+const getTaskByIdService = async (task_id, user_id) => {
+    const taskData = await getTaskById(task_id, user_id);
+
+    return taskData;
+};
+
 module.exports = {
-    createTaskService
+    createTaskService,
+    TaskListService,
+    getTaskByIdService
 };

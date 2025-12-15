@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     full_name VARCHAR(200) NOT NULL,
     email VARCHAR(200) NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    date_of_birth DATE NOT NULL,
+    date_of_birth DATE,
     bio TEXT,
     created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP

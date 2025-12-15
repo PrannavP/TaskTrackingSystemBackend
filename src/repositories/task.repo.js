@@ -14,6 +14,73 @@ const createTask = async (task) => {
     return result.rows[0];
 };
 
+// Task List (dynamic filters)
+const getTaskList = async (filters) => {
+    let sql = `
+        SELECT
+            id,
+            task_name,
+            task_number,
+            bug_number,
+            type,
+            is_merged,
+            is_completed
+        FROM task
+        WHERE user_id = $1
+    `;
+
+    const values = [filters.user_id];
+    let idx = 2;
+
+    if (filters.type) {
+        sql += ` AND $${idx} = ANY(type)`;
+        values.push(filters.type);
+        idx++;
+    }
+
+    if (filters.bug_number) {
+        sql += ` AND $${idx} = ANY(bug_number)`;
+        values.push(filters.bug_number);
+        idx++;
+    }
+
+    if (filters.is_merged !== undefined) {
+        sql += ` AND is_merged = $${idx}`;
+        values.push(filters.is_merged);
+        idx++;
+    }
+
+    if (filters.is_completed !== undefined) {
+        sql += ` AND is_completed = $${idx}`;
+        values.push(filters.is_completed);
+        idx++;
+    }
+
+    if (filters.task_name) {
+        sql += ` AND task_name ILIKE $${idx}`;
+        values.push(`%${filters.task_name}%`);
+        idx++;
+    }
+
+    sql += ` ORDER BY created_date DESC`;
+
+    const result = await pool.query(sql, values);
+    return result.rows;
+};
+
+// Get task by id
+const getTaskById = async(task_id, user_id) => {
+    const result = await pool.query(
+        `
+        SELECT * FROM task WHERE id = $1 AND user_id = $2
+        `, [task_id, user_id]
+    );
+
+    return result.rows[0];
+};
+
 module.exports = {
-    createTask
+    createTask,
+    getTaskList,
+    getTaskById
 };

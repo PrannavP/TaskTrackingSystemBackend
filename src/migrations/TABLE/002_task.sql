@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS task (
     is_merged BOOLEAN DEFAULT FALSE,
     merged_date DATE,
     description TEXT NOT NULL,
+    is_completed BOOLEAN DEFAULT FALSE,
+    completed_date DATE,
     created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

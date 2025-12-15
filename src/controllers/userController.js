@@ -12,7 +12,10 @@ const createUserController = async (req, res) => {
 const loginUserController = async (req, res) => {
     try{
         const token = await loginUserService(req.body);
-        res.status(200).json({ success: true, message: "Logged in successfully.", data: token });
+
+        setTimeout(() => {
+            res.status(200).json({ success: true, message: "Logged in successfully.", data: token });
+        }, 5000);
     }catch(err){
         res.status(400).json({ success: false, message: err.message });
     }
