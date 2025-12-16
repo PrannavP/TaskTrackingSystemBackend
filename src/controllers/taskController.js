@@ -1,7 +1,8 @@
 const {
     createTaskService,
     TaskListService,
-    getTaskByIdService
+    getTaskByIdService,
+    updateTaskService
 } = require("../services/task.service");
 
 const createTaskController = async (req, res, next) => {
@@ -39,8 +40,23 @@ const getTaskByIdController = async(req, res) => {
     }
 };
 
+const updateTaskController = async (req, res) => {
+    try{
+        const updatedTaskData = await updateTaskService(req.body);
+
+        if(!updatedTaskData){
+            res.status(404).json({ success: false, message: "Task does not exists." });
+        };
+
+        res.status(201).json({ success: true, message: "Task updated successfully.", data: updatedTaskData });
+    }catch(err){
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
 module.exports = {
     createTaskController,
     taskListController,
-    getTaskByIdController
+    getTaskByIdController,
+    updateTaskController
 };
